@@ -1,0 +1,4 @@
+. Criar mensagem de boas vindas
+. Criar menu de opções
+. Personalizar mensagens de Thread.Sleep e ConsoleColor
+. Criar classe e método estático para barra de carregamento
