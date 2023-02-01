@@ -1,0 +1,3 @@
+. Criar arquivo txt
+. Criar arquivo csv
+. Resolver atividades
