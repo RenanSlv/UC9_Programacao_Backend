@@ -1,0 +1,4 @@
+. Criar um submenu para Pessoa Física e Pessoa Jurídica
+	-opção 1: Cadastrar
+	-opção 2: Listar
+obs: o cadastro se dará dinamicamente e os objetos serão armazenados em uma lista
