@@ -1,0 +1,80 @@
+using System.Text.RegularExpressions;
+using Cadastro_Pessoas_PBE11.Interfaces;
+
+namespace Cadastro_Pessoas_PBE11.Classes
+{   
+    //classe PessoaJuridica que herda da classe abstrata e de sua interface
+    public class PessoasJuridica : Pessoa, IPessoaJuridica
+    {   
+        //atributos
+        public string? RazaoSocial { get; set; }
+        public string? Cnpj { get; set; }
+        public string Caminho { get; private set; } = "Database/PessoaJuridica.csv";
+
+
+        //método herdado como sobescrita da classe abstrata
+        public override float PagarImposto(float rendimento)
+        {
+            if(rendimento <= 3000){
+                return rendimento * 0.03f;
+            }else if(rendimento > 3000 && rendimento <= 6000){
+                return rendimento * 0.05f;
+            }else if(rendimento > 6000 && rendimento <= 10000){
+                return rendimento * 0.07f;
+            }else{
+                return rendimento * 0.09f;
+            }
+        }
+
+        //método herdado da interface IPessoaJuridica
+        //verificar 2 jeitos de CNPJ
+        // 58.566.555/0001-55 = 18 caracteres
+        //58566555000155 = 14 caracteres
+        public bool ValidarCnpj(string cnpj)
+        {
+            if(Regex.IsMatch(cnpj, @"(^(\d{2}.\d{3}.\d{3}/\d{4}-\d{2})|(\d{14})$)")){
+                if(cnpj.Length == 18){
+                    if(cnpj.Substring(11, 4) == "0001"){
+                        return true;
+                    }
+                }else if (cnpj.Length == 14){
+                    if(cnpj.Substring(8, 4) == "0001"){
+                        return true;
+                    }
+                }
+            }return false;
+        }
+
+        //metodo para inserir um objeto de pessoa jurídica em um arquivo csv
+        public void Inserir(PessoasJuridica pj){
+            Utils.VerificarPastaArquivo(Caminho);
+
+            string[] pjStrings = {$"{pj.RazaoSocial}, {pj.Cnpj}, {pj.Rendimento}"};
+
+            File.AppendAllLines(Caminho,pjStrings);
+        }
+
+        //metodo para ler arquivos armazendos em csv
+        public List<PessoasJuridica> LerArquivo(){
+            List<PessoasJuridica> listaPj = new List<PessoasJuridica>();
+
+            string[] linhas = File.ReadAllLines(Caminho);
+
+            foreach(string cadaLinha in linhas){
+                string[] atributos = cadaLinha.Split(",");
+
+                PessoasJuridica cadaPj = new PessoasJuridica();
+
+                cadaPj.RazaoSocial = atributos[0];
+                cadaPj.Cnpj = atributos[1];
+                cadaPj.Rendimento = float.Parse(atributos[2]);
+
+                listaPj.Add(cadaPj);
+            }
+
+            return listaPj;
+        }
+        
+
+    }
+}
