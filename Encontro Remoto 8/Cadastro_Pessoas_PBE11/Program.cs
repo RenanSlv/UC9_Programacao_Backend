@@ -145,33 +145,6 @@ switch(opcao){
             
                 //Listando Pessoa Física
                 case "2":
-                    
-                    /*if(listaPf.Count > 0){
-                        foreach (PessoaFisica cadaPessoa in listaPf){
-                             Console.Clear();
-
-                            //imprimindo no console os valores desses atributos
-                           Console.WriteLine(@$"
-                            Nome : {cadaPessoa.Nome}
-                            CPF : {cadaPessoa.Cpf}
-                            Data de Nascimento : {cadaPessoa.DataNascimento}
-                            Maior de idade : {(metodosPf.ValidarDataNascimento(cadaPessoa.DataNascimento) ? "Sim, maior de idade" : "Não, é menor de idade") }
-                            maior de idade(string) : {(metodosPf.ValidarDataNascimento("05/12/2000") ? "Sim" : "Não")}
-                            Rendimento : {cadaPessoa.Rendimento.ToString("C", new CultureInfo("pt-br"))}
-                            Imposto a pagar : {metodosPf.PagarImposto(cadaPessoa.Rendimento).ToString("C", new CultureInfo("pt-br"))}
-                            Endereço : {cadaPessoa.Endereco.Logradouro}, {cadaPessoa.Endereco.Numero}, {cadaPessoa.Endereco.Complemento}, {cadaPessoa.Endereco.Comercial}
-                            ");
-                        }
-                        Console.WriteLine($"Digite 'ENTER' para continuar...");
-                        Console.ReadLine();
-                    }else {
-                        Console.ForegroundColor = ConsoleColor.DarkBlue;
-                        Console.WriteLine($"Lista Vazia!");
-                        Console.ResetColor();
-                        Console.WriteLine($"Digite 'ENTER' para continuar...");
-                        Console.ReadLine();
-                    }*/
-
                     //Recurso de leitura com o StreamReader
                     using(StreamReader sr = new StreamReader("Renan.txt")){
                         string? linha;
@@ -276,6 +249,12 @@ switch(opcao){
                         novaPj.Endereco = endPj;
 
                         listaPj.Add(novaPj);
+
+
+                        using(StreamWriter sw = new StreamWriter($"{novaPj.RazaoSocial}.txt")){
+                            sw.WriteLine(novaPj.RazaoSocial);
+                        }
+
                         Console.WriteLine($"Cadastro realizado com sucesso!");
                         Thread.Sleep(2500);
 
@@ -283,28 +262,15 @@ switch(opcao){
 
                     //Listando Pessoa Jurídica
                     case "2":
-                        if(listaPj.Count > 0){
-                            foreach (PessoasJuridica cadaRz in listaPj){
-                                Console.Clear();
-                                //imprimindo no console os valores desses atributos
-                                Console.WriteLine(@$"
-                                Razão Social : {cadaRz.RazaoSocial}
-                                CNPJ : {cadaRz.Cnpj}
-                                CNPJ válido : {(metodosPj.ValidarCnpj(cadaRz.Cnpj) ? "Cnpj válido" : "Cnpj Invalido")}
-                                Rendimento : {cadaRz.Rendimento.ToString("C", new CultureInfo("pt-br"))}
-                                Imposto a pagar : {metodosPj.PagarImposto(cadaRz.Rendimento).ToString("C", new CultureInfo("pt-br"))}
-                                Endereço : {cadaRz.Endereco.Logradouro}. {cadaRz.Endereco.Numero}, {cadaRz.Endereco.Complemento}, {cadaRz.Endereco.Comercial}
-                                ");
-                                Console.WriteLine($"Aperte a tecla ENTER para continuar");
-                                Console.ReadLine();
+                        using(StreamReader sr = new StreamReader("testandoPessoaJuridica.txt")){
+                            string? linha;
+
+                            while((linha = sr.ReadLine()) != null){
+                                Console.WriteLine($"{linha}");
                             }
-                        }else{
-                            Console.ForegroundColor = ConsoleColor.DarkBlue;
-                            Console.WriteLine($"Lista Vazia!");
-                            Console.ResetColor();
-                            Console.WriteLine($"Digite 'ENTER' para continuar...");
-                            Console.ReadLine();
                         }
+                            Console.Write($"Digite ENTER para continuar...");
+                            Console.ReadLine();
                     break;
 
                     //Saindo da Opção Pessoa Jurídica
